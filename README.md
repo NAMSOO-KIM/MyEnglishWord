@@ -4,6 +4,8 @@
 
 ### JSP, Servlet, Oracle
 
+##### mvc 패턴 적용
+
 
 
 기능 구현
