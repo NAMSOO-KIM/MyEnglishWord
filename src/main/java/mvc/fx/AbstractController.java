@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public abstract class AbstractController {
 	public abstract ModelAndView handleRquestInternal(HttpServletRequest request, HttpServletResponse response) ;
-		
 	
 
 }

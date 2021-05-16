@@ -3,9 +3,7 @@ package mvc.service;
 
 import java.util.List;
 
-import mvc.models.MemberDAO;
-import mvc.models.MemberDAOImpl;
-import mvc.models.MemberDTO;
+import mvc.models.MyWordDTO;
 import mvc.models.WordDAO;
 import mvc.models.WordDAOImpl;
 import mvc.models.WordDTO;
@@ -16,6 +14,20 @@ public class WordServiceImpl implements WordService {
 	private static final WordService wordService = new WordServiceImpl();
 	private WordDAO wordDAO = WordDAOImpl.getInstance();
 	
+	
+	@Override
+	public WordDTO getWord(long word_id) throws Exception {
+		// TODO Auto-generated method stub
+		return wordDAO.getWord(word_id);
+	}
+	
+	//나의 단어 제거
+	@Override
+	public void deleteMyWord(long word_id) throws Exception {
+		System.out.println("deleteMyWord 까지 왔음");
+		wordDAO.deleteMyWord(word_id);
+		
+	}
 	private WordServiceImpl() {
 		
 	}
@@ -50,7 +62,7 @@ public class WordServiceImpl implements WordService {
 	}
 	
 	@Override
-	public List<WordDTO> getWordList(String user_id) throws Exception {
+	public List<MyWordDTO> getWordList(String user_id) throws Exception {
 		// TODO Auto-generated method stub
 		return wordDAO.getWordList(user_id);
 	
@@ -61,5 +73,13 @@ public class WordServiceImpl implements WordService {
 		// TODO Auto-generated method stub
 		return wordDAO.getWordCount();
 	}
+	
+	@Override
+	public void insertMyWord(String user_id, WordDTO wordDTO) throws Exception {
+		// TODO Auto-generated method stub
+		wordDAO.insertWord(user_id,wordDTO);
+		
+	}
+	
 
 }

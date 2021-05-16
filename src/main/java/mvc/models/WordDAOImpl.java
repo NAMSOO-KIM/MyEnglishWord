@@ -46,6 +46,91 @@ public class WordDAOImpl implements WordDAO {
 		}
 	}
 
+	@Override
+	public int insertWord(String user_id, WordDTO wordDTO) throws SQLException{
+		System.out.println(user_id);
+		System.out.println(wordDTO.getId());
+		System.out.println(wordDTO.getQuestion());
+		System.out.println(wordDTO.getAnswer());
+		
+		// TODO Auto-generated method stub
+		StringBuffer sql = new StringBuffer();
+		
+		
+		sql.append("INSERT INTO my_word(id, member_id, word_id, question, answer) ");
+		sql.append("VALUES(seq_word.nextval, ?, ?, ?, ?) ");
+		try (Connection conn = dataSource.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql.toString())){
+				
+				ps.setString(1, user_id);
+				ps.setLong(2, wordDTO.getId());
+				ps.setString(3, wordDTO.getQuestion());
+				ps.setString(4, wordDTO.getAnswer());
+				ps.executeUpdate();
+				System.out.println("WordDAOImple insert 성공");
+				return 1;
+			}
+		catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	//나의 단어 제거
+	@Override
+	public void deleteMyWord(long word_id) throws SQLException {
+		StringBuffer sql = new StringBuffer();
+		sql.append("DELETE my_word  ");
+		sql.append("WHERE id=?  ");
+		
+		
+		try (Connection conn = dataSource.getConnection();
+			 PreparedStatement pstmt = conn.prepareStatement(sql.toString())){
+			//to-do
+			
+			pstmt.setLong(1, word_id);
+			pstmt.executeUpdate();
+			
+			
+			System.out.println(word_id);
+			
+			System.out.println("단어 삭제");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+		
+	
+	
+	@Override
+	public WordDTO getWord(long word_id) throws SQLException {
+		// TODO Auto-generated method stub
+		StringBuffer sql = new StringBuffer();
+		sql.append("select id, question, answer ");
+		sql.append("FROM word ");
+		sql.append("where id = ? ");
+		
+		WordDTO wordDTO = new WordDTO();
+		
+		try (Connection conn = dataSource.getConnection();
+			 PreparedStatement ps = conn.prepareStatement(sql.toString())){
+			  ps.setLong(1,word_id);
+			  
+			try (ResultSet rs = ps.executeQuery()) {
+				if(rs.next()) {
+					
+					
+					wordDTO.setId(rs.getLong("id"));
+					wordDTO.setQuestion(rs.getString("question"));
+					wordDTO.setAnswer(rs.getString("answer"));
+					
+				}
+			}
+		} 
+		return wordDTO;
+	}
+	
 	// 단어 목록 조회
 	@Override
 	public List<WordDTO> getWordList() throws SQLException {
@@ -56,7 +141,7 @@ public class WordDAOImpl implements WordDAO {
 		sql.append("INNER JOIN word w on w.member_id = m.id; ");
 		*/
 	
-		sql.append("select question, answer ");
+		sql.append("select id, question, answer ");
 		sql.append("FROM word ");
 		
 		List<WordDTO> list = new ArrayList<>();
@@ -67,7 +152,7 @@ public class WordDAOImpl implements WordDAO {
 			try (ResultSet rs = ps.executeQuery()) {
 				while(rs.next()) {
 					WordDTO wordDTO = new WordDTO();
-					//wordDTO.setMember_id(rs.getString("member_id"));
+					wordDTO.setId(Integer.parseInt(rs.getString("id")));
 					wordDTO.setQuestion(rs.getString("question"));
 					wordDTO.setAnswer(rs.getString("answer"));
 					list.add(wordDTO);
@@ -79,7 +164,7 @@ public class WordDAOImpl implements WordDAO {
 	}
 	
 	@Override
-	public List<WordDTO> getWordList(String user_id) throws SQLException {
+	public List<MyWordDTO> getWordList(String user_id) throws SQLException {
 		StringBuffer sql = new StringBuffer();
 		/*
 		sql.append("select w.english , w.answer, w.regdate, m.name ");
@@ -87,12 +172,12 @@ public class WordDAOImpl implements WordDAO {
 		sql.append("INNER JOIN word w on w.member_id = m.id; ");
 		*/
 	
-		sql.append("select id, user_id, question, answer ");
-		sql.append("FROM word ");
+		sql.append("select id, question, answer ");
+		sql.append("FROM my_word ");
 		sql.append("where member_id = ? ");
 		
 		
-		List<WordDTO> list = new ArrayList<>();
+		List<MyWordDTO> list = new ArrayList<>();
 		
 		try (Connection conn = dataSource.getConnection();
 			 PreparedStatement ps = conn.prepareStatement(sql.toString())){
@@ -101,12 +186,12 @@ public class WordDAOImpl implements WordDAO {
 			try (ResultSet rs = ps.executeQuery()) {
 				while(rs.next()) {
 					
-					WordDTO wordDTO = new WordDTO();
-					wordDTO.setId(rs.getLong("id"));
-					wordDTO.setMember_id(rs.getString("member_id"));
-					wordDTO.setQuestion(rs.getString("question"));
-					wordDTO.setAnswer(rs.getString("answer"));
-					list.add(wordDTO);
+					//WordDTO wordDTO = new WordDTO();
+					MyWordDTO mywordDTO = new MyWordDTO();
+					mywordDTO.setId(rs.getLong("id"));
+					mywordDTO.setQuestion(rs.getString("question"));
+					mywordDTO.setAnswer(rs.getString("answer"));
+					list.add(mywordDTO);
 				}
 			}
 		} 

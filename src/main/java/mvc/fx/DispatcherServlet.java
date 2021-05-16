@@ -1,7 +1,6 @@
 package mvc.fx;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,10 +33,10 @@ public class DispatcherServlet extends HttpServlet {
 				try {
 					className = Class.forName(prop.getProperty(key).trim());
 					controllerMap.put(key, (AbstractController) className.getConstructor().newInstance());
-					//System.out.println("loaded : " + className + "");
+					System.out.println("loaded : " + className + "");
 				} catch (Exception e) {
 					e.printStackTrace();
-					//System.out.println("error : " + className + "");
+					System.out.println("error : " + className + "");
 				}
 			}
 		} catch (Exception e) {

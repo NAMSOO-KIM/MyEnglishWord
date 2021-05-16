@@ -11,7 +11,7 @@ public interface WordDAO {
 
 
 	// 나만의 단어만 출력
-	List<WordDTO> getWordList(String user_id) throws SQLException;
+	List<MyWordDTO> getWordList(String user_id) throws SQLException;
 	
 	int updateWord(WordDTO wordDTO) throws SQLException;
 	
@@ -22,4 +22,10 @@ public interface WordDAO {
 	int allDeleteWord(WordDTO wordDTO) throws SQLException;
 	
 	String getWordCount() throws SQLException;
+
+	WordDTO getWord(long word_id) throws SQLException;
+
+	int insertWord(String user_id, WordDTO wordDTO) throws SQLException;
+
+	void deleteMyWord(long word_id) throws SQLException;
 }

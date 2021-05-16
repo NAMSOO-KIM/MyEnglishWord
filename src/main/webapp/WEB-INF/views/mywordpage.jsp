@@ -48,51 +48,46 @@
 
  <script>
   
-      function button_event(element,ind){
-        
-       
-        console.log(element);
-        
-        var question = $("#question");
-        var word_id = $("#word_id").val()
-        var answer = $("#answer").val()
-        console.log(question);
-        console.log(word_id);
-        console.log(answer);
-        
-      var result = confirm('나의 단어장에서 제거하시겠습니까?');
+ function button_event(element){
 
-      if (result == true){
-
-        var params = {
-                          id      : word_id
-                        , question      : question
-                        , answer    : answer
-                  }
-                  
-                  // ajax 통신
-                  $.ajax({
-                      type : "POST",            // HTTP method type(GET, POST) 형식이다.
-                      url : "/myword/myplaceInsertAction",      // 컨트롤러에서 대기중인 URL 주소이다.
-                      data : params,            // Json 형식의 데이터이다.
-                      success : function(res){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
-                  // 응답코드 > 0000
-                  alert(res.code);
-              },
-              error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
-                  alert("통신 실패.")
-              }
-          });
-      }
-      else{
-        
-      }
-    }
+   var doc=document.getElementById("word_id");
+   var word_id = doc.getAttribute("value");
+     
+   var result = confirm('나의 단어장에서 제거하시겠습니까?');
+	  
+   if (result == true){
+     
+     var params = {
+                       id      : word_id
+               }
+               
+               // ajax 통신
+               $.ajax({
+                   type : "POST",            // HTTP method type(GET, POST) 형식이다.
+                   url : "/MyWordWeb/myword/myplaceDeleteAction",      // 컨트롤러에서 대기중인 URL 주소이다.
+                   data : params,            // Json 형식의 데이터이다.
+                   success : function(res){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
+               // 응답코드 > 0000
+               alert(res.code);
+           },
+           error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+               alert("통신 실패.")
+           }
+       });
+   }
+   else{
+     
+   }
+ }
 </script>
 
   </head>
  
   <body>
+  <%
+	String user_id= (String)session.getAttribute("user_id");
+	
+   %>
     <c:forEach var="dto" items="${list}" varStatus="statusNum">
       <div id="columns">
         <figure id="figure" onclick="button_event(this);">
