@@ -1,12 +1,8 @@
 package mvc.models;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -52,7 +48,5 @@ public class CrawlerDAOImpl implements CrawlerDAO {
 		}
 	}
 
-	
-	
 }
 

@@ -1,7 +1,5 @@
 package mvc.controllers;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,7 +12,6 @@ import mvc.service.WordServiceImpl;
 public class wordInsertAction extends AbstractController {
 	
 	WordService wordService = WordServiceImpl.getInstance();
-	
 	
 	
 	@Override

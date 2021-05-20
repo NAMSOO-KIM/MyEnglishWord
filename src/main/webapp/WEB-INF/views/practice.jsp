@@ -85,7 +85,7 @@
                       // ajax 통신
                       $.ajax({
                           type : "POST",            // HTTP method type(GET, POST) 형식이다.
-                          url : "/MyWordWeb/myword/myplaceInsertAction",      // 컨트롤러에서 대기중인 URL 주소이다.
+                          url : "/MyWordSP/myword/myplaceInsertAction",      // 컨트롤러에서 대기중인 URL 주소이다.
                           data : params,            // Json 형식의 데이터이다.
                           success : function(res){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
                       // 응답코드 > 0000
